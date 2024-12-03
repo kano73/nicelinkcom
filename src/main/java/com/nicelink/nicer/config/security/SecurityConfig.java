@@ -22,13 +22,18 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(HttpMethod.POST,"/createlink").authenticated()
-//                        .requestMatchers("/profile","/actions","/createlink").authenticated()
-//                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/createlink").authenticated()
+                        .requestMatchers("/profile","/actions","/createlink").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .anyRequest().permitAll())
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
                         .permitAll()
                 );
         return http.build();

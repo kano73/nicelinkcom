@@ -19,6 +19,8 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalUserExceptionHandler {
 
+    public String baseUrl = "http://192.168.0.94:8080/";
+
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> hadlePasswordException (InvalidPasswordException exception){
         return new ResponseEntity<String>("Invalid password", HttpStatus.CONFLICT);
@@ -57,7 +59,7 @@ public class GlobalUserExceptionHandler {
     @ExceptionHandler(LinkNotFoundException.class)
     public ResponseEntity<String> hadleLinkNotFoundException (LinkNotFoundException exception){
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Refresh", "0.1; URL=" + "http://localhost:8080/notfound");
+        headers.add("Refresh", "0.1; URL=" + baseUrl+"/notfound");
 
         return ResponseEntity.ok().headers(headers).body("could not get orig_link from db");
     }
