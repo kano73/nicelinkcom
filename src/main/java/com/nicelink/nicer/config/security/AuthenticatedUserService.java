@@ -18,14 +18,13 @@ public class AuthenticatedUserService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        log.info("name of class: "+authentication.getPrincipal().getClass().getName());
-        log.info("to string: "+authentication.getPrincipal().toString());
-
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
 
         if(userDetails == null) {
             throw new UserNotFoundException("connected user not found");
         }
+
+        log.info("user found");
 
         return userDetails.getUser();
     }

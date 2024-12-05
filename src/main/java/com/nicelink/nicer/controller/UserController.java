@@ -57,14 +57,15 @@ public class UserController {
     }
 
     @DeleteMapping("/profile")
-    public ResponseEntity<String> profileDelete(@Valid @RequestBody UserDTO userDTO) {
+    public ResponseEntity<String> profileDelete(@Valid @RequestBody UserDTO userDTO) throws InvalidUserException {
         log.info("Got request delete on /profile: " + userDTO.toString());
 
+        User authUser = authService.getCurrentUserAuthenticated();
         User user = userDTO.convertToUser();
 
-        log.info("converted user: " + user.toString());
+        log.info("converted user: {}; \n authuser: {}", user.toString(), authUser.toString());
 
-        return userService.deleteUser(user) ? ResponseEntity.ok("deleted successfully") : ResponseEntity.ok("deletion failed");
+        return userService.deleteUser(user, authUser) ? ResponseEntity.ok("deleted successfully") : ResponseEntity.ok("deletion failed");
     }
 
 }

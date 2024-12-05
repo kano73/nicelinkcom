@@ -51,11 +51,15 @@ public class UserService {
 
 //    DELETE
 
-    public boolean deleteUser(User user) {
+    public boolean deleteUser(User user, User authUser) throws InvalidUserException {
 
         log.info("starting user repository");
 
-        if(passwordEncoder.matches(user.getPassword(), userRepository.getUserByUsername(user.getUsername()).getPassword())) {
+        if(user.getUsername()!=authUser.getUsername()) {
+            throw new InvalidUserException("username is not right");
+        }
+
+        if(passwordEncoder.matches(user.getPassword(), authUser.getPassword())) {
             return userRepository.deleteUserByUsername(user.getUsername());
         }else {
             throw new InvalidPasswordException("Invalid password");

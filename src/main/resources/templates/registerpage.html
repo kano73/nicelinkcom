@@ -8,7 +8,7 @@
 <body>
 <div class="registration-container">
     <h1>Register</h1>
-    <form method="post" action="/register">
+    <form id="registerForm">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" placeholder="Enter username" required>
         <br>
@@ -35,9 +35,55 @@
             <option value="1">1</option>
         </select>
         <br>
-        <button type="submit">Register</button>
+        <button id="btnSubmit" type="submit">Register</button>
     </form>
-    <p>Already have an account? <a href="/nicelink/login">Login here</a></p>
+    <p>Already have an account? <a href="/login">Login here</a></p>
 </div>
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const role = document.getElementById('role').value;
+        const level = document.getElementById('level').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if(confirmPassword!==password){
+            alert("Passwords do not match!");
+            return;
+        }
+
+        const requestData = {
+            username:username,
+            password:password,
+            email:email,
+            role:role,
+            level:level
+        };
+
+        const submitButton = document.getElementById('btnSubmit');
+        submitButton.disabled = true;
+
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                // Handle the response here, for example, show a success message
+                console.log('Success:', data);
+                alert(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("error:"+error);
+            });
+    });
+</script>
 </body>
 </html>

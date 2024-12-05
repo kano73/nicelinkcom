@@ -3,11 +3,8 @@ package com.nicelink.nicer.repository;
 import com.nicelink.nicer.model.Action;
 import com.nicelink.nicer.model.ActionOnLinkOnUser;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Repository
@@ -19,7 +16,7 @@ public class ActionRepository {
 //    select
 
     public List<Action> getAllActionsOnLinkById(Integer linkId){
-        String sql = "SELECT time_stamp, ip_of_user FROM my_action WHERE link_id = ?";
+        String sql = "SELECT time_stamp, ip_of_user, date_stamp, link_id FROM my_action WHERE link_id = ?";
 
         return jdbcTemplate.query(sql, new Object[]{linkId}, Action::mapRow);
     }
@@ -39,9 +36,9 @@ public class ActionRepository {
 //    insert
 
     public boolean addAction(Action action){
-        String sql = "INSERT INTO my_action (time_stamp, link_id, ip_of_user) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO my_action (link_id, ip_of_user) VALUES ( ?, ?)";
 
-        return jdbcTemplate.update(sql,action.getParams()) > 0;
+        return jdbcTemplate.update(sql,action.getParamsNoTimeAndDate()) > 0;
 
     }
 }

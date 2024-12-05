@@ -1,10 +1,12 @@
 package com.nicelink.nicer.repository;
 
+import com.nicelink.nicer.exeptions.link.InvalidLinkException;
 import com.nicelink.nicer.exeptions.link.LinkAlreadyExistsException;
 import com.nicelink.nicer.exeptions.link.LinkNotFoundException;
 import com.nicelink.nicer.exeptions.user.UserNotFoundException;
 import com.nicelink.nicer.model.ActionOnLinkOnUser;
 import com.nicelink.nicer.model.Link;
+import com.nicelink.nicer.model.LinkResult;
 import com.nicelink.nicer.model.dto.UpdateLinkDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Repository
@@ -30,9 +33,11 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
         // Using parameterized query to avoid SQL injection
         String origLink = jdbcTemplate.queryForObject(sql, String.class, niceLink);
 
+        log.info("orig link:"+ origLink);
+
         // Check if result is null (in case no such link exists)
         if (origLink == null) {
-            throw new LinkNotFoundException("No link found for nice link: " + niceLink);
+            throw new LinkNotFoundException("No link found for nice link: " + niceLink+"orig link="+origLink);
         }
         return origLink;
     } catch (EmptyResultDataAccessException e) {
@@ -67,6 +72,19 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
         return linkId;
     }
 
+    public List<LinkResult> getAllLinksForUserByUsername(String username){
+        String sql = " SELECT l.id ,l.orig_link, l.nice_link, ( SELECT COUNT(a.id) FROM my_action a WHERE a.link_id = l.id ) as actions_num FROM my_link l JOIN my_user u ON u.id = l.owner_id WHERE u.username = ? ";
+
+        return jdbcTemplate.query(sql,new Object[]{username},LinkResult::mapRow);
+    }
+
+    public boolean isUserOwnThisNiceLinkByUserId(Integer link_id ,Integer userId){
+        log.info("link repo isUserOwnThisNiceLinkByUserId opened");
+        String sql = "SELECT owner_id FROM my_link WHERE id = ?";
+
+        return Objects.equals(userId, jdbcTemplate.queryForObject(sql, Integer.class, link_id));
+    }
+
     private String sqlSelectBuilder(Link link){
         StringBuilder sqlBuilder = new StringBuilder();
 
@@ -87,8 +105,15 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
 //    UPDATE
 
     public boolean updateNiceLinkByNiceLink(UpdateLinkDTO updateLinkDTO){
-
         log.info("link repository update link opened");
+
+        try{
+            if(getOrigLinkByNiceLinkFAST(updateLinkDTO.getNice_link_new())!=null) {
+                throw new LinkAlreadyExistsException("Link already exists");
+            }
+        }catch (LinkNotFoundException e){
+            log.info("good: link does not exists");
+        }
 
         String sql = "UPDATE my_link SET nice_link = ? WHERE nice_link = ?";
 
@@ -97,18 +122,12 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
         }else {
             throw new LinkNotFoundException("No link found for nice link: " + updateLinkDTO.getParams());
         }
-
     }
 
     //    INSERT
-    public boolean createLink(Link link, String username) throws LinkAlreadyExistsException, UserNotFoundException {
+    public boolean createLink(Link link) throws LinkAlreadyExistsException, UserNotFoundException {
 
         log.info("user repository createLink method:");
-
-        UserRepository userRepository = new UserRepository(jdbcTemplate);
-        Integer user_id = userRepository.getUserByUsername(username).getId();
-
-        log.info("user id is:" + user_id);
 
         try {
             getOrigLinkByNiceLinkFAST(link.getNice_link());
@@ -120,10 +139,22 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
 //            every thing is fine!
         }
 
-        link.setOwner_id(user_id);
-
         String sql = "INSERT INTO my_link (nice_link, orig_link, owner_id) VALUES (?,?,?)";
 
         return jdbcTemplate.update(sql,link.getParamsNoId()) > 0;
+    }
+
+//    DELETE
+    public boolean deleteLinkByNiceLinkAndActionsOnIt(String niceLink) throws InvalidLinkException {
+        log.info("link repository delete link opened");
+
+        if (niceLink==null){
+            throw new InvalidLinkException("Link is null ");
+        }
+
+        String sql = "DELETE FROM my_link WHERE nice_link = ? ";
+        log.info("trying to delete from db sql:"+sql);
+
+        return jdbcTemplate.update(sql, niceLink) > 0;
     }
 }

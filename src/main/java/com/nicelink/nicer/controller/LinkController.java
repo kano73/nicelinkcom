@@ -1,24 +1,26 @@
 package com.nicelink.nicer.controller;
 
+import com.nicelink.nicer.config.security.AuthenticatedUserService;
+import com.nicelink.nicer.exeptions.link.InvalidLinkException;
+import com.nicelink.nicer.exeptions.user.ValidationException;
 import com.nicelink.nicer.model.Action;
 import com.nicelink.nicer.model.Link;
+import com.nicelink.nicer.model.User;
 import com.nicelink.nicer.model.dto.LinkDTO;
+import com.nicelink.nicer.model.dto.PostLinkDTO;
 import com.nicelink.nicer.model.dto.UpdateLinkDTO;
-import com.nicelink.nicer.repository.ActionRepository;
 import com.nicelink.nicer.service.ActionService;
 import com.nicelink.nicer.service.ClientsDetailsService;
 import com.nicelink.nicer.service.LinkService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.time.OffsetTime;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -34,6 +36,10 @@ public class LinkController {
     @Autowired
     private ActionService actionService;
 
+    @Lazy
+    @Autowired
+    private AuthenticatedUserService authService;
+
     @GetMapping("/nl/**")
     public ResponseEntity<String> redirect(HttpServletRequest request) throws IOException {
         String path = request.getRequestURI();
@@ -45,14 +51,11 @@ public class LinkController {
 
         log.info("orig link: " + orig_link);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Refresh", "5; URL=" + orig_link);
 
         String clientsIpAddress = ClientsDetailsService.getClientIp(request);
-        ZonedDateTime time_stamp = ZonedDateTime.now();
         Integer linkId = linkService.getLinkIdByNiceLink(path);
 
-        Action action = new Action(time_stamp,linkId,clientsIpAddress);
+        Action action = new Action(linkId,clientsIpAddress);
 
         log.info("action: " + action);
 
@@ -62,26 +65,30 @@ public class LinkController {
             log.error("error accused wile adding action: "+e.getMessage());
         }
 
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Refresh", "5; URL=" + orig_link);
         String body = "<h1>Hello in 5 sek you will be redirected</h1><p>Here could be your add</p>"+"<p>your ip adress: "+clientsIpAddress+"</p>";
 
         return ResponseEntity.ok().headers(headers).body(body);
     }
 
     @PostMapping("/createlink")
-    public ResponseEntity<String> createLink(@Valid @RequestBody LinkDTO linkDTO) {
+    public ResponseEntity<String> createLink(@Valid @RequestBody PostLinkDTO postLinkDTO) {
+        log.info("Got request post on /createlink: "+postLinkDTO.toString());
 
-        log.info("Got request post on /createlink: "+linkDTO.toString());
+        User authuser = authService.getCurrentUserAuthenticated();
+        if(authuser.getId()==null) throw new ValidationException("unexpected situation:","lost users id");
+        postLinkDTO.setOwner_id(authuser.getId());
 
-        Link link = linkDTO.convertToLink();
-
-        log.info("Converted link: "+link.toString());
+        Link link = postLinkDTO.toLink();
+        log.info("Converted link: "+ link.toString());
 
         log.info("trying to create a new link");
-        return linkService.createLink(link,linkDTO.getOwner_name()) ? ResponseEntity.ok("created successfully")
+        return linkService.createLink(link) ? ResponseEntity.ok("created successfully")
                 : ResponseEntity.ok("created failed");
     }
 
-    @PutMapping("/createlink")
+    @PutMapping("/mylinks")
     public ResponseEntity<String> updateLink(@Valid @RequestBody UpdateLinkDTO updateLinkDTO) {
         log.info("Got request put on /createlink: "+updateLinkDTO.toString());
 
@@ -89,6 +96,15 @@ public class LinkController {
         return linkService.updateNiceLinkByNiceLink(updateLinkDTO) ? ResponseEntity.ok("changed successfully")
                 : ResponseEntity.ok("changed failed");
 
+    }
+
+    @DeleteMapping("/mylinks")
+    public ResponseEntity<String> deleteLink(@Valid @RequestBody LinkDTO linkDTO) throws InvalidLinkException {
+        log.info("Got request delete on /mylinks: "+linkDTO.toString());
+
+        log.info("trying to delete a link");
+        return linkService.deleteLinkByNiceLink(linkDTO.getNice_link()) ? ResponseEntity.ok("changed successfully")
+                : ResponseEntity.ok("changed failed");
     }
 
 }

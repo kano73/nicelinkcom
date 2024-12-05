@@ -13,10 +13,10 @@ public class LinkDTO {
 
     private Integer id;
 
-    @Size(min = 7)
+    @Size(min = 4)
     private String orig_link;
 
-    @Size(min = 10)
+    @Size(min = 3)
     private String nice_link;
 
     private Integer owner_id;

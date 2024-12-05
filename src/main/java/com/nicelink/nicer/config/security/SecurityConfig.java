@@ -23,7 +23,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST,"/createlink").authenticated()
-                        .requestMatchers("/profile","/actions","/createlink").authenticated()
+                        .requestMatchers("/profile","/actions","/createlink","/mylinks","/actions").authenticated()
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .anyRequest().permitAll())
                 .formLogin((form) -> form

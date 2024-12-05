@@ -14,18 +14,18 @@ import java.util.ArrayList;
 public class UpdateLinkDTO {
     private Integer id;
 
-    @Size(min = 7)
+    @Size(min = 4)
     private String orig_link_old;
 
-    @Size(min = 7)
+    @Size(min = 4)
     private String orig_link_new;
 
     @NotNull
-    @Size(min = 10)
+    @Size(min = 3)
     private String nice_link_old;
 
     @NotNull
-    @Size(min = 10)
+    @Size(min = 3)
     private String nice_link_new;
 
     private Integer owner_id;

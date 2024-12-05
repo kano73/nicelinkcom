@@ -115,15 +115,18 @@ public class UserRepository {
 
         log.info("method postUser started");
 
-        if(this.getUserByUsername(user.getUsername())!=null){
-            log.info("user already exists");
-            throw new UserAlreadyExistsExeption("User with username: "+user.getUsername()+" already exists");
+        try{
+            if (this.getUserByUsername(user.getUsername()) != null) {
+                log.info("user already exists");
+                throw new UserAlreadyExistsExeption("User with username: " + user.getUsername() + " already exists");
+            }
+        }catch (UserNotFoundException e){
+            log.info("good: user does not exist with username: "+user.getUsername() );
         }
-        log.info("user does not exist with username: "+user.getUsername() );
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        log.info("user details:"+user.toString());
+        log.info("user details:"+user);
 
         String sql = "INSERT INTO my_user(username, password, email, role, level) VALUES (?,?, ?, ?,?)";
 

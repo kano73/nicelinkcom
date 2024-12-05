@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>Create link</h1>
-<form method="post" action="/createlink">
+<form id="createLinkForm">
 
     <label for="orig_link">Original link</label>
     <input type="text" id="orig_link" name="orig_link" placeholder="place here your link" required>
@@ -19,11 +19,38 @@
     <input type="text" id="nice_link" name="nice_link" placeholder="place here your nice link" required>
     <br>
 
-    <label for="owner_name">Owner name</label>
-    <input type="text" id="owner_name" name="owner_name" placeholder="owner username" required>
-    <br>
-
     <button type="submit">Save</button>
 </form>
+<script>
+    document.getElementById('createLinkForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const origLink = document.getElementById('orig_link').value;
+        const niceLink = document.getElementById('nice_link').value;
+
+        const requestData = {
+            orig_link: origLink,
+            nice_link: niceLink
+        };
+
+        fetch('/createlink', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                // Handle the response here, for example, show a success message
+                console.log('Success:', data);
+                alert(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("error:"+error);
+            });
+    });
+</script>
 </body>
 </html>

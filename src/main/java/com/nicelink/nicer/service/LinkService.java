@@ -1,6 +1,10 @@
 package com.nicelink.nicer.service;
+import com.nicelink.nicer.exeptions.link.InvalidLinkException;
+import com.nicelink.nicer.exeptions.link.UserDoesNotOwnThisLinkException;
+import com.nicelink.nicer.exeptions.user.ValidationException;
 import com.nicelink.nicer.model.Link;
 import com.nicelink.nicer.model.ActionOnLinkOnUser;
+import com.nicelink.nicer.model.LinkResult;
 import com.nicelink.nicer.model.dto.UpdateLinkDTO;
 import com.nicelink.nicer.repository.LinkRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,15 @@ public class LinkService {
       return linkRepository.getOrigLinkByNiceLinkFAST(niceLink);
     }
 
+    public List<LinkResult> getAllLinksForUserByUsername(String username) {
+
+      if(username==null){
+        throw new ValidationException("emm...","user validation failed");
+      }
+
+      return linkRepository.getAllLinksForUserByUsername(username);
+    }
+
     public List<Link> getAllLinksByParams(Link link) {
       return linkRepository.getLinksByParams(link);
     }
@@ -45,10 +58,24 @@ public class LinkService {
 
 //    INSERT
 
-    public boolean createLink(Link link, String username) {
-
+    public boolean createLink(Link link) {
       log.info("link service method create link opened");
 
-      return linkRepository.createLink(link,username);
+      return linkRepository.createLink(link);
     }
+
+//    DELETE
+    public boolean deleteLinkByNiceLink(String niceLink) throws InvalidLinkException {
+      log.info("link service method delete link opened");
+
+      return linkRepository.deleteLinkByNiceLinkAndActionsOnIt(niceLink);
+    }
+
+  public void validateOwnerShip(Integer link_id , Integer userId) {
+    log.info("link service method isThisNiceLinkBelongsToThisUserId opened");
+
+    if(!linkRepository.isUserOwnThisNiceLinkByUserId(link_id ,userId)){
+      throw new UserDoesNotOwnThisLinkException("user does not own this nice link");
+    }
+  }
 }

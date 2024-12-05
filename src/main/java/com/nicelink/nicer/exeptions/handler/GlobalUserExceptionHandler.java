@@ -3,6 +3,7 @@ package com.nicelink.nicer.exeptions.handler;
 import com.nicelink.nicer.exeptions.link.InvalidLinkException;
 import com.nicelink.nicer.exeptions.link.LinkAlreadyExistsException;
 import com.nicelink.nicer.exeptions.link.LinkNotFoundException;
+import com.nicelink.nicer.exeptions.link.UserDoesNotOwnThisLinkException;
 import com.nicelink.nicer.exeptions.user.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalUserExceptionHandler {
 
-    public String baseUrl = "http://192.168.0.94:8080/";
+    public String baseUrl = "http://192.168.0.94:8080";
 
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> hadlePasswordException (InvalidPasswordException exception){
@@ -61,7 +62,7 @@ public class GlobalUserExceptionHandler {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Refresh", "0.1; URL=" + baseUrl+"/notfound");
 
-        return ResponseEntity.ok().headers(headers).body("could not get orig_link from db");
+        return ResponseEntity.ok().headers(headers).body("link not found");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -86,4 +87,15 @@ public class GlobalUserExceptionHandler {
     public ResponseEntity<String> hadleAuthenticationException (AuthenticationException exception){
         return new ResponseEntity<String>("Error accused while determining authenticated user",HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ClassCastException.class)
+    public ResponseEntity<String> hadleClassCastException (ClassCastException exception){
+        return new ResponseEntity<String>("User does not authenticated",HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserDoesNotOwnThisLinkException.class)
+    public ResponseEntity<String> hadleUserDoesNotOwnThisLinkException (UserDoesNotOwnThisLinkException exception){
+        return new ResponseEntity<String>("Sorry, but this is not your link: <p>We can't show you this private info</p>",HttpStatus.CONFLICT);
+    }
+
 }

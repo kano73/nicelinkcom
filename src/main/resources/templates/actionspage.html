@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Actions on link</title>
+</head>
+<body>
+    <h1>Actions on link: <span th:text="${nice_link}"></span></h1>
+    <div th:each="action : ${actionList}" class="link">
+        <p>Date of action:
+            <!--/*@thymesVar id="date_stamp" type="java.lang.String"*/-->
+            <span th:text="${action.date_stamp}"></span>
+        </p>
+        <p>Time of action:
+            <!--/*@thymesVar id="time_stamp" type="java.lang.String"*/-->
+            <span th:text="${action.time_stamp}"></span>
+        </p>
+        <p>Ip of client: <!--/*@thymesVar id="action" type="com.nicelink.nicer.model.Action;"*/-->
+            <!--/*@thymesVar id="ip_of_user" type="java.lang.String"*/-->
+            <span th:text="${action.ip_of_user}"></span></p>
+        <br><br>
+    </div>
+
+</body>
+</html>
