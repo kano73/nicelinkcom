@@ -20,7 +20,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalUserExceptionHandler {
 
-    public String baseUrl = "http://192.168.0.94:8080";
+    public String baseUrl = "http://10.130.75.149";
 
     @ExceptionHandler(InvalidPasswordException.class)
     public ResponseEntity<String> hadlePasswordException (InvalidPasswordException exception){

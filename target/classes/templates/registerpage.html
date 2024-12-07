@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+</head>
+<body>
+<div class="registration-container">
+    <h1>Register</h1>
+    <form id="registerForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required>
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required>
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter password" required>
+        <br>
+
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+        <br>
+
+        <label for="role">Role:</label>
+        <select id="role" name="role">
+            <option value="USER">User</option>
+        </select>
+        <br>
+        <label for="level">Level:</label>
+        <select id="level" name="level">
+            <option value="1">1</option>
+        </select>
+        <br>
+        <button id="btnSubmit" type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login here</a></p>
+</div>
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const email = document.getElementById('email').value;
+        const role = document.getElementById('role').value;
+        const level = document.getElementById('level').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if(confirmPassword!==password){
+            alert("Passwords do not match!");
+            return;
+        }
+
+        const requestData = {
+            username:username,
+            password:password,
+            email:email,
+            role:role,
+            level:level
+        };
+
+        const submitButton = document.getElementById('btnSubmit');
+        submitButton.disabled = true;
+
+        fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                // Handle the response here, for example, show a success message
+                console.log('Success:', data);
+                alert(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("error:"+error);
+            });
+    });
+</script>
+</body>
+</html>

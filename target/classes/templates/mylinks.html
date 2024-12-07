@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>my links page</h1>
+<p>all links:</p>
+    <div th:each="link : ${linkResults}" class="link">
+        <p>link id: <!--/*@thymesVar id="link" type="com.nicelink.nicer.model.LinkResult;"*/-->
+            <!--/*@thymesVar id="id" type="java.lang.Integer"*/-->
+            <span th:text="${link.id}"></span></p>
+        <p>original link: <!--/*@thymesVar id="link" type="com.nicelink.nicer.model.LinkResult;"*/-->
+        <!--/*@thymesVar id="orig_link" type="java.lang.String"*/-->
+        <span th:text="${link.orig_link}"></span></p>
+        <p>nice link: <!--/*@thymesVar id="link" type="com.nicelink.nicer.model.LinkResult;"*/-->
+            <!--/*@thymesVar id="nice_link" type="java.lang.String"*/-->
+            <span th:text="${link.nice_link}"></span></p>
+        <p>number of uses: <!--/*@thymesVar id="link" type="com.nicelink.nicer.model.LinkResult;"*/-->
+            <!--/*@thymesVar id="orig_link" type="java.lang.Integer"*/-->
+            <span th:text="${link.action_num}"></span></p>
+    </div>
+</body>
+</html>

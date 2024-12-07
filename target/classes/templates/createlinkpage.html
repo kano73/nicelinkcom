@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Create link</h1>
+<form id="createLinkForm">
+
+    <label for="orig_link">Original link</label>
+    <input type="text" id="orig_link" name="orig_link" placeholder="place here your link" required>
+    <br>
+
+    <label for="nice_link">Nice link</label>
+    <input type="text" id="nice_link" name="nice_link" placeholder="place here your nice link" required>
+    <br>
+
+    <button type="submit">Save</button>
+</form>
+<script>
+    document.getElementById('createLinkForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+
+        const origLink = document.getElementById('orig_link').value;
+        const niceLink = document.getElementById('nice_link').value;
+
+        const requestData = {
+            orig_link: origLink,
+            nice_link: niceLink
+        };
+
+        fetch('/createlink', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                // Handle the response here, for example, show a success message
+                console.log('Success:', data);
+                alert(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("error:"+error);
+            });
+    });
+</script>
+</body>
+</html>
