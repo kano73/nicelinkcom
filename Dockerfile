@@ -6,7 +6,7 @@ RUN mvn clean install -DskipTests
 
 FROM openjdk:21-jdk-slim
 WORKDIR /opt/app
-EXPOSE 8080
+EXPOSE 80
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
 ENTRYPOINT ["java","-jar","/opt/app/*.jar"]
 
