@@ -1,7 +1,8 @@
 version: '3.1'
 
 networks:
-   dev:
+  dev:
+    driver: bridge
 
 volumes:
   pg_nicelink:
