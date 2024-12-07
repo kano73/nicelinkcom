@@ -13,7 +13,7 @@ services:
     environment:
       - POSTGRES_DB=nicelink
       - POSTGRES_PASSWORD=pass
-      - POSTGRES_USER=linker
+      - POSTGRES_USER=postgres
     volumes:
       - ./db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:

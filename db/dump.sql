@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: my_action; Type: TABLE; Schema: public; Owner: linker
+-- Name: my_action; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.my_action (
@@ -33,17 +33,17 @@ CREATE TABLE public.my_action (
 );
 
 
-ALTER TABLE public.my_action OWNER TO linker;
+ALTER TABLE public.my_action OWNER TO postgres;
 
 --
--- Name: TABLE my_action; Type: COMMENT; Schema: public; Owner: linker
+-- Name: TABLE my_action; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON TABLE public.my_action IS 'table for actions on links that belongs to nicelink.com service';
 
 
 --
--- Name: my_action_id_seq; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_action_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_action_id_seq
@@ -54,10 +54,10 @@ CREATE SEQUENCE public.my_action_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_action_id_seq OWNER TO linker;
+ALTER SEQUENCE public.my_action_id_seq OWNER TO postgres;
 
 --
--- Name: my_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_actions_id_seq
@@ -69,17 +69,17 @@ CREATE SEQUENCE public.my_actions_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_actions_id_seq OWNER TO linker;
+ALTER SEQUENCE public.my_actions_id_seq OWNER TO postgres;
 
 --
--- Name: my_actions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: linker
+-- Name: my_actions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.my_actions_id_seq OWNED BY public.my_action.id;
 
 
 --
--- Name: my_link; Type: TABLE; Schema: public; Owner: linker
+-- Name: my_link; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.my_link (
@@ -90,17 +90,17 @@ CREATE TABLE public.my_link (
 );
 
 
-ALTER TABLE public.my_link OWNER TO linker;
+ALTER TABLE public.my_link OWNER TO postgres;
 
 --
--- Name: TABLE my_link; Type: COMMENT; Schema: public; Owner: linker
+-- Name: TABLE my_link; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON TABLE public.my_link IS 'table for links that belongs to nicelink.com service';
 
 
 --
--- Name: my_link_id_seq; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_link_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_link_id_seq
@@ -111,10 +111,10 @@ CREATE SEQUENCE public.my_link_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_link_id_seq OWNER TO linker;
+ALTER SEQUENCE public.my_link_id_seq OWNER TO postgres;
 
 --
--- Name: my_link_id_seq1; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_link_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_link_id_seq1
@@ -126,17 +126,17 @@ CREATE SEQUENCE public.my_link_id_seq1
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_link_id_seq1 OWNER TO linker;
+ALTER SEQUENCE public.my_link_id_seq1 OWNER TO postgres;
 
 --
--- Name: my_link_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: linker
+-- Name: my_link_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.my_link_id_seq1 OWNED BY public.my_link.id;
 
 
 --
--- Name: my_user; Type: TABLE; Schema: public; Owner: linker
+-- Name: my_user; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.my_user (
@@ -149,17 +149,17 @@ CREATE TABLE public.my_user (
 );
 
 
-ALTER TABLE public.my_user OWNER TO linker;
+ALTER TABLE public.my_user OWNER TO postgres;
 
 --
--- Name: TABLE my_user; Type: COMMENT; Schema: public; Owner: linker
+-- Name: TABLE my_user; Type: COMMENT; Schema: public; Owner: postgres
 --
 
 COMMENT ON TABLE public.my_user IS 'table for users nicelink.com service';
 
 
 --
--- Name: my_user_id_seq; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_user_id_seq
@@ -170,10 +170,10 @@ CREATE SEQUENCE public.my_user_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_user_id_seq OWNER TO linker;
+ALTER SEQUENCE public.my_user_id_seq OWNER TO postgres;
 
 --
--- Name: my_user_id_seq1; Type: SEQUENCE; Schema: public; Owner: linker
+-- Name: my_user_id_seq1; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
 CREATE SEQUENCE public.my_user_id_seq1
@@ -185,38 +185,38 @@ CREATE SEQUENCE public.my_user_id_seq1
     CACHE 1;
 
 
-ALTER SEQUENCE public.my_user_id_seq1 OWNER TO linker;
+ALTER SEQUENCE public.my_user_id_seq1 OWNER TO postgres;
 
 --
--- Name: my_user_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: linker
+-- Name: my_user_id_seq1; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.my_user_id_seq1 OWNED BY public.my_user.id;
 
 
 --
--- Name: my_action id; Type: DEFAULT; Schema: public; Owner: linker
+-- Name: my_action id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_action ALTER COLUMN id SET DEFAULT nextval('public.my_actions_id_seq'::regclass);
 
 
 --
--- Name: my_link id; Type: DEFAULT; Schema: public; Owner: linker
+-- Name: my_link id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_link ALTER COLUMN id SET DEFAULT nextval('public.my_link_id_seq1'::regclass);
 
 
 --
--- Name: my_user id; Type: DEFAULT; Schema: public; Owner: linker
+-- Name: my_user id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_user ALTER COLUMN id SET DEFAULT nextval('public.my_user_id_seq1'::regclass);
 
 
 --
--- Data for Name: my_action; Type: TABLE DATA; Schema: public; Owner: linker
+-- Data for Name: my_action; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.my_action (id, time_stamp, link_id, ip_of_user, date_stamp) FROM stdin;
@@ -231,7 +231,7 @@ COPY public.my_action (id, time_stamp, link_id, ip_of_user, date_stamp) FROM std
 
 
 --
--- Data for Name: my_link; Type: TABLE DATA; Schema: public; Owner: linker
+-- Data for Name: my_link; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.my_link (id, orig_link, nice_link, owner_id) FROM stdin;
@@ -243,7 +243,7 @@ COPY public.my_link (id, orig_link, nice_link, owner_id) FROM stdin;
 
 
 --
--- Data for Name: my_user; Type: TABLE DATA; Schema: public; Owner: linker
+-- Data for Name: my_user; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.my_user (id, username, password, email, role, level) FROM stdin;
@@ -254,49 +254,49 @@ COPY public.my_user (id, username, password, email, role, level) FROM stdin;
 
 
 --
--- Name: my_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_action_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_action_id_seq', 1, false);
 
 
 --
--- Name: my_actions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_actions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_actions_id_seq', 23, true);
 
 
 --
--- Name: my_link_id_seq; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_link_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_link_id_seq', 1, false);
 
 
 --
--- Name: my_link_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_link_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_link_id_seq1', 12, true);
 
 
 --
--- Name: my_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_user_id_seq', 1, true);
 
 
 --
--- Name: my_user_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: linker
+-- Name: my_user_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.my_user_id_seq1', 8, true);
 
 
 --
--- Name: my_action my_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: linker
+-- Name: my_action my_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_action
@@ -304,7 +304,7 @@ ALTER TABLE ONLY public.my_action
 
 
 --
--- Name: my_link my_link_pkey; Type: CONSTRAINT; Schema: public; Owner: linker
+-- Name: my_link my_link_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_link
@@ -312,7 +312,7 @@ ALTER TABLE ONLY public.my_link
 
 
 --
--- Name: my_user my_user_pkey; Type: CONSTRAINT; Schema: public; Owner: linker
+-- Name: my_user my_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_user
@@ -320,7 +320,7 @@ ALTER TABLE ONLY public.my_user
 
 
 --
--- Name: my_action fk_action_link; Type: FK CONSTRAINT; Schema: public; Owner: linker
+-- Name: my_action fk_action_link; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_action
@@ -328,7 +328,7 @@ ALTER TABLE ONLY public.my_action
 
 
 --
--- Name: my_link fk_link_user; Type: FK CONSTRAINT; Schema: public; Owner: linker
+-- Name: my_link fk_link_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.my_link
@@ -339,35 +339,35 @@ ALTER TABLE ONLY public.my_link
 -- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
 --
 
-GRANT USAGE ON SCHEMA public TO linker;
+GRANT USAGE ON SCHEMA public TO postgres;
 
 
 --
--- Name: SEQUENCE my_action_id_seq; Type: ACL; Schema: public; Owner: linker
+-- Name: SEQUENCE my_action_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE public.my_action_id_seq TO linker;
-
-
---
--- Name: SEQUENCE my_link_id_seq; Type: ACL; Schema: public; Owner: linker
---
-
-GRANT SELECT,USAGE ON SEQUENCE public.my_link_id_seq TO linker;
+GRANT SELECT,USAGE ON SEQUENCE public.my_action_id_seq TO postgres;
 
 
 --
--- Name: SEQUENCE my_user_id_seq; Type: ACL; Schema: public; Owner: linker
+-- Name: SEQUENCE my_link_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
-GRANT SELECT,USAGE ON SEQUENCE public.my_user_id_seq TO linker;
+GRANT SELECT,USAGE ON SEQUENCE public.my_link_id_seq TO postgres;
 
 
 --
--- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: linker
+-- Name: SEQUENCE my_user_id_seq; Type: ACL; Schema: public; Owner: postgres
 --
 
-ALTER DEFAULT PRIVILEGES FOR ROLE linker IN SCHEMA public GRANT SELECT ON TABLES TO linker;
+GRANT SELECT,USAGE ON SEQUENCE public.my_user_id_seq TO postgres;
+
+
+--
+-- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT SELECT ON TABLES TO postgres;
 
 
 --
