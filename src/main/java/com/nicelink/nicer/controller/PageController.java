@@ -34,7 +34,12 @@ public class PageController {
     private ActionService actionService;
 
     @GetMapping("/")
-    public String login() {
+    public String tohome() {
+        return "redirect:/home";
+    }
+
+    @GetMapping("")
+    public String tohome2() {
         return "redirect:/home";
     }
 
