@@ -33,6 +33,11 @@ public class PageController {
     @Autowired
     private ActionService actionService;
 
+    @GetMapping("/")
+    public String login() {
+        return "redirect:/home";
+    }
+
     @GetMapping("/actions")
     public String actionsPage(@RequestParam Integer link_id, Model model) {
         log.info("got request on actions page link_id: {}", link_id);
