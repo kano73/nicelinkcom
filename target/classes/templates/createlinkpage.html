@@ -16,11 +16,24 @@
     <br>
 
     <label for="nice_link">Nice link</label>
-    <input type="text" id="nice_link" name="nice_link" placeholder="place here your nice link" required>
+    <input type="text" id="nice_link" name="nice_link" placeholder="write here a word or smth" required>
     <br>
 
     <button type="submit">Save</button>
+
+    <p class="resultlink"></p>
 </form>
+<footer>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/createlink">Create your nicelink</a></li>
+        <li><a href="/mylinks">My links</a></li>
+    </ul>
+</footer>
+
 <script>
     document.getElementById('createLinkForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
@@ -32,6 +45,8 @@
             orig_link: origLink,
             nice_link: niceLink
         };
+
+        document.querySelector('p.resultlink').textContent = "here is your nice link: \n"+"http://52.202.20.237/nl/"+niceLink;
 
         fetch('/createlink', {
             method: 'POST',

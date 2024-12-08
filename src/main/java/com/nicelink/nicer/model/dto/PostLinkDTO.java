@@ -16,7 +16,6 @@ public class PostLinkDTO {
     private String orig_link;
 
     @NotNull
-    @Size(min = 3)
     private String nice_link;
 
     private Integer owner_id;

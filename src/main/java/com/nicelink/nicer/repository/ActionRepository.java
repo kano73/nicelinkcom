@@ -21,18 +21,6 @@ public class ActionRepository {
         return jdbcTemplate.query(sql, new Object[]{linkId}, Action::mapRow);
     }
 
-    public List<ActionOnLinkOnUser> getAllActionInfoOnLinkByNiceLink(String niceLink){
-        String sql = "SELECT u.username, l.orig_link, l.nice_link, a.time_stamp, a.ip_of_user FROM my_action a JOIN my_link l ON a.link_id=l.id JOIN my_user u ON l.owner_id = u.id WHERE l.nice_link = ?";
-
-        return jdbcTemplate.query(sql, new Object[]{niceLink},ActionOnLinkOnUser::mapRow);
-    }
-
-    public List<Action> getAllActionsLinkByNiceLink(String niceLink){
-        String sql = "SELECT a.time_stamp, a.ip_of_user FROM my_action a JOIN my_link l ON a.link_id=l.id WHERE l.nice_link = ?";
-
-        return jdbcTemplate.query(sql, new Object[]{niceLink},Action::mapRow);
-    }
-
 //    insert
 
     public boolean addAction(Action action){

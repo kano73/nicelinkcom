@@ -23,6 +23,18 @@
         <p>number of uses: <!--/*@thymesVar id="link" type="com.nicelink.nicer.model.LinkResult;"*/-->
             <!--/*@thymesVar id="orig_link" type="java.lang.Integer"*/-->
             <span th:text="${link.action_num}"></span></p>
+        <p><a th:href="'/actions?link_id=' + ${link.id}">see actions</a></p>
     </div>
 </body>
+<footer>
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/createlink">Create your nicelink</a></li>
+        <li><a href="/mylinks">My links</a></li>
+    </ul>
+</footer>
+
 </html>

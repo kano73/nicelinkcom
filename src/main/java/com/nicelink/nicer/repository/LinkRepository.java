@@ -53,13 +53,6 @@ public String getOrigLinkByNiceLinkFAST(String niceLink) throws LinkNotFoundExce
         return jdbcTemplate.query(sql, link.getParams(),Link::mapRow);
 
     }
-
-    public List<ActionOnLinkOnUser> getLinksWithOwnerNameByNiceLink(String niceLink){
-        String sql = "SELECT l.orig_link, l.nice_link, u.username FROM my_link l JOIN my_user u ON l.owner_id = u.id WHERE l.nice_link = ?";
-
-        return jdbcTemplate.query(sql, new Object[]{niceLink}, ActionOnLinkOnUser::mapRow);
-    }
-
     public Integer getLinkIdByNiceLink(String niceLink){
         String sql = "SELECT id FROM my_link WHERE nice_link = ?";
 

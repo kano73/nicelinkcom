@@ -30,10 +30,6 @@ public class UserService {
         return userRepository.getUserByUsername(username);
     }
 
-    public List<Link> getAllLinksForUser(String username) {
-        return userRepository.getAllLinksForUser(username);
-    }
-
 //    UPDATE
 
     public boolean updateUserInfo(User user) throws InvalidUserException {

@@ -20,10 +20,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.time.OffsetTime;
-
 import java.io.IOException;
-import java.time.ZonedDateTime;
 
 @Slf4j
 @RestController
@@ -43,6 +40,7 @@ public class LinkController {
     @GetMapping("/nl/**")
     public ResponseEntity<String> redirect(HttpServletRequest request) throws IOException {
         String path = request.getRequestURI();
+        path=path.substring(4,path.length());
 
         log.info("got request for redirect on path: " + path);
         log.info("trying to get orig_link from db");

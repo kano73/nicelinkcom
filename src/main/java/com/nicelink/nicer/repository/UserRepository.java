@@ -45,20 +45,6 @@ public class UserRepository {
         return userFound;
     }
 
-    public List<Link> getAllLinksForUser(String username)  {
-        String sql = "SELECT id, orig_link, nice_link, owner_id FROM my_link l JOIN my_user u ON l.owner_id = u.id WHERE username = ?";
-
-        return jdbcTemplate.query(sql,new Object[]{username},(rs,rwNum)->{
-            Link link = new Link();
-            link.setId(rs.getInt("id"));
-            link.setNice_link(rs.getString("nice_link"));
-            link.setOrig_link(rs.getString("orig_link"));
-            link.setOwner_id(rs.getInt("owner_id"));
-
-            return link;
-        });
-    }
-
     private String sqlSelectBuilder(User user){
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append("SELECT * FROM my_user WHERE");

@@ -23,15 +23,6 @@ public class ActionService {
         return actionRepository.getAllActionsOnLinkById(linkId);
     }
 
-    public List<ActionOnLinkOnUser> getAllActionInfoOnLinkByNiceLink(String niceLink){
-        return actionRepository.getAllActionInfoOnLinkByNiceLink(niceLink);
-    }
-
-    public List<Action> getActionsOnLinkByNiceLink(String niceLink){
-        return actionRepository.getAllActionsLinkByNiceLink(niceLink);
-    }
-
-
 //    INSERT
 
     public boolean addAction(Action action) {

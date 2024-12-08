@@ -41,10 +41,6 @@ public class LinkService {
       return linkRepository.getLinksByParams(link);
     }
 
-    public List<ActionOnLinkOnUser> getLinksWithOwnerByNiceLink(String niceLink) {
-      return linkRepository.getLinksWithOwnerNameByNiceLink(niceLink);
-    }
-
     public Integer getLinkIdByNiceLink(String niceLink) {
       return linkRepository.getLinkIdByNiceLink(niceLink);
     }

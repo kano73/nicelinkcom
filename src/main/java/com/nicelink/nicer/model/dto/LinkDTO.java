@@ -16,7 +16,6 @@ public class LinkDTO {
     @Size(min = 4)
     private String orig_link;
 
-    @Size(min = 3)
     private String nice_link;
 
     private Integer owner_id;
